@@ -18,4 +18,6 @@ public class Body {
        this.position.x = x;
        this.position.y = y;
    }
+
+   
 }

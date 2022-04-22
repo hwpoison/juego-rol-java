@@ -1,10 +1,6 @@
 package Entity;
 
-public class Player extends Body {
-    public String name;
-    public char texture;
-    public int power;
-
+public class Player extends Character {
     public Player(String name, int power, char texture) {
         this.name = name;
         this.power = power;
