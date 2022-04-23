@@ -1,5 +1,5 @@
 package Entity;
 
-public class Door extends Body {
+public class Door extends RigidBody {
     
 }

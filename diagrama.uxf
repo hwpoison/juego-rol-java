@@ -1,0 +1,36 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>368</x><y>130</y><w>230</w><h>90</h></coordinates><panel_attributes>/RigidBody/
+--
++id: integer
+-position : Coords
+--
++ isCollidingWith(RigidBody otherBody)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>378</x><y>270</y><w>210</w><h>90</h></coordinates><panel_attributes>/Character/
+--
++name : String
++power: integer
++life : integer
++potion: integer
++texture : char</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>298</x><y>410</y><w>80</w><h>30</h></coordinates><panel_attributes>Enemy</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>578</x><y>410</y><w>150</w><h>70</h></coordinates><panel_attributes>Player
+--
++score
+--
++move()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>478</x><y>350</y><w>120</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60;100;70</additional_attributes></element><element><id>Relation</id><coordinates><x>368</x><y>350</y><w>120</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>100;10;100;60;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>1148</x><y>0</y><w>130</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;80</additional_attributes></element><element><id>Relation</id><coordinates><x>468</x><y>210</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>48</x><y>90</y><w>210</w><h>170</h></coordinates><panel_attributes>ScreenDriver
+--
+-SCREEN_WIDTH : integer
+-SCREEN_HEIGHT: integer
+-surface : char[][]
+--
++erase()
++refresh()
++drawBody()
++Sleep()
++clearConsole()
++printText()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>248</x><y>160</y><w>140</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>568</x><y>30</y><w>210</w><h>60</h></coordinates><panel_attributes>Coords
+--
+x : integer
+y : integer</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>588</x><y>80</y><w>100</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>80;10;80;100;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>378</x><y>540</y><w>210</w><h>90</h></coordinates><panel_attributes>Game
+--
++main()
+-getInput()
+--
+Bucle principal de eventos</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>250</y><w>270</w><h>380</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;360;250;360</additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>430</y><w>60</w><h>170</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150;40;150</additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>470</y><w>100</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>80;10;80;130;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>40</y><w>450</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>430;10;10;10;10;50</additional_attributes></element></diagram>
