@@ -1,26 +1,43 @@
 package Screen;
-import Entity.Coords;
 import java.util.List;
+
+import Entity.RigidBody;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ScreenDriver
 {
-    int SCREEN_WIDTH = 20;
-    int SCREEN_HEIGHT = 5;
-    char defaultBackground;
-    char[][] surface;
+    static int SCREEN_WIDTH = 20;
+    static int SCREEN_HEIGHT = 7;
+    String defaultBackground;
+    String [][] surface;
     List<String> messages;
 
     public void initScreen() {
-      this.defaultBackground = '.';
-      this.surface = new char[this.SCREEN_WIDTH][this.SCREEN_HEIGHT];
+      this.defaultBackground = " ";
+      this.surface = new String[SCREEN_WIDTH][SCREEN_HEIGHT];
       this.messages = new ArrayList<String>();
     }
 
+    public static int getScreenWidth() {
+      return SCREEN_WIDTH;
+    }
+    
+    public static int getScreenHeight() {
+      return SCREEN_HEIGHT;
+    }
+
+    public void drawChar(String c, int x, int y) {
+      this.surface[x][y] = c;
+    }
+
     public void draw(){
-        for(int y = 0; y < this.SCREEN_HEIGHT; y++){
-            for(int x = 0; x < this.SCREEN_WIDTH; x++){
-              System.out.printf("%c", this.surface[x][y]);
+        for(int y = 0; y < SCREEN_HEIGHT; y++){
+            for(int x = 0; x < SCREEN_WIDTH; x++){
+              System.out.print(this.surface[x][y]);
             }
             System.out.printf("\n");
         }
@@ -39,19 +56,20 @@ public class ScreenDriver
 
     public void erase() {
           ClearConsoleScreen();
-          for(int y=0; y < this.SCREEN_HEIGHT; y++){
-              for(int x=0; x < this.SCREEN_WIDTH; x++){
+          for(int y=0; y < SCREEN_HEIGHT; y++){
+              for(int x=0; x < SCREEN_WIDTH; x++){
                   this.surface[x][y] = this.defaultBackground; 
           }
       }
     }
       
-    public void drawBody(Coords position, char texture) {
-      // avoid out of screen 
-      if(position.x < 0 || position.x >= this.SCREEN_WIDTH || position.y < 0 || position.y >= this.SCREEN_HEIGHT){
+    public void drawBody(RigidBody body) {
+      if(!body.visible) return;
+      if(body.position.x < 0 || body.position.x >= SCREEN_WIDTH 
+        || body.position.y < 0 || body.position.y >= SCREEN_HEIGHT){
           return;
       }else{
-          this.surface[position.x][position.y] = texture;
+          this.surface[body.position.x][body.position.y] = body.sprite;
       }
     } 
 
@@ -63,13 +81,25 @@ public class ScreenDriver
       }
     }
 
-    public void drawInScreen(int x, int y, char character) {
-          this.surface[x][y] = character; 
-    }
-
     public void ClearConsoleScreen() {
-          System.out.print("\033[H\033[2J");
-          System.out.flush();
+    	String command = "cmd.exe /c cls";
+    	 
+    	try {
+    	    Process process = Runtime.getRuntime().exec(command);
+    	 
+    	    BufferedReader reader = new BufferedReader(
+    	            new InputStreamReader(process.getInputStream()));
+    	    String line;
+    	    while ((line = reader.readLine()) != null) {
+    	        System.out.println(line);
+    	    }
+    	 
+    	    reader.close();
+    	 
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
+        System.out.flush();
     }
 
     public void printText(String text) {

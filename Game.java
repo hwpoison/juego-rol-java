@@ -1,4 +1,5 @@
 import Entity.Player;
+import Screen.Coords;
 import Screen.ScreenDriver;
 import Entity.Enemy;
 
@@ -6,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
-    public static void main (String[]args)
+    public static void main(String[] args)
     {
         // preparar pantalla y entrada
         ScreenDriver screen = new ScreenDriver();
@@ -14,41 +15,46 @@ public class Game {
         Keyboard keyboard = new Keyboard();
         boolean enJuego = true;
 
-        // posicionar entidades
-        Player player = new Player("Player", 10, 100, '@');    
-        player.setPosition(0, 0);
+        // crear jugador
+        Player player = new Player("Player", 3, 100, "@");    
+        player.setPosition(new Coords(0, 0));
         
+        // crear enemigos
         List<Enemy> allEnemies = new ArrayList<Enemy>();
-        allEnemies.add(new Enemy("Enemy1", 10, '#'));
-        allEnemies.add(new Enemy("Enemy2", 10, '#'));
-        allEnemies.add(new Enemy("Enemy3", 10, '#'));
-
+        for(int i = 0; i < 3; i++){
+            allEnemies.add(new Enemy());
+            allEnemies.get(i).setPosition(Coords.random());
+        }
 
         while(enJuego){
             screen.erase(); // Borrar pantalla
 
             // jugador y enemigos
-            screen.drawBody(player.position, player.texture);
+            screen.drawBody(player);
             for(Enemy enemy : allEnemies){
-                enemy.setPosition(3, 4);
-                screen.drawBody(enemy.position, enemy.texture);
+                screen.drawBody( enemy);
             }
 
             // dibujar pantalla y mensajes
+            screen.printText("==========================");
             screen.draw(); 
+            screen.printText("==========================");
             screen.printSomeLastMessages();
-
-            Enemy enemy = allEnemies.get(0);
-            // eventos del juego 
-            if(player.isCollidingWith(enemy)){
-                screen.printText("El enemigo tiene " + enemy.power + " de poder.");
-                screen.printText("¿Deseas atacar? (y/n)");
+            // eventos del juego
+            
+            // Cuando el jugador toca a un enemigo
+            Enemy targetEnemy = player.touchEnemies(allEnemies);
+            if(targetEnemy!=null){
+                screen.printText("El enemigo tiene " + targetEnemy.power + " de poder.");
+                screen.printText("Te has topado con " + targetEnemy.name  +" ¿Deseas atacar? (y/n)");
                 keyboard.getAInput();
                 if(keyboard.inputEqualTo("y")){
-                    if(Actions.attack(player, enemy)){
-                        screen.printText("¡Has ganado!");
+                    if(player.attack(targetEnemy)){
+                        targetEnemy.kill();
+                        screen.addMessage("¡Has ganado!");
                     }else{
-                        screen.printText("¡El enemigo es muy poderoso!");
+                        screen.addMessage("¡El enemigo es muy poderoso!");
+                        screen.printText("Te ha quitado " + targetEnemy.power +  " de vida.");
                     }
                 }else if(keyboard.inputEqualTo("n")){
                     screen.printText("Bueno, has decidido echarte atrás, has sobrevivido, pero sin valor!, el juego ha terminado.");
@@ -64,37 +70,38 @@ public class Game {
                 screen.printText("Te queda: " + player.life + " de vida.");
             }
             
-            // eventos del teclado
+            // Eventos del teclado
             screen.printText("Elige una acción:");
             keyboard.getAInput();
             switch(keyboard.input){
                 case "w":
-                    player.move('w');
+                    player.moveTo('w');
                     break;
                 case "s":
-                    player.move('s');
+                    player.moveTo('s');
                     break;
                 case "a":
-                    player.move('a');
+                    player.moveTo('a');
                     break;
                 case "d":
-                    player.move('d');
+                    player.moveTo('d');
                     break;
                 case "q":
                     if(player.potions > 0){
                         screen.addMessage("¡Has usado una poción!");
-                        Actions.heal(player);
+                        player.drinkAPotion();
                         player.potions--;
                     }else{
                         screen.addMessage("No tienes más pociones!");
                     }
                     break;
                 default:
+                    screen.addMessage("No puedes hacer eso.");
                     break;
             }
         
+            
         }
-
         // game over
         screen.ClearConsoleScreen();
         screen.printText("¡Hasta la próxima!");

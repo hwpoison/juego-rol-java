@@ -1,18 +1,38 @@
 package Entity;
 
+import java.util.List;
+
 public class Player extends Character {
     public int score;
     public int potions;
-    
-    public Player(String name, int power, int life, char texture) {
+
+    public Player(String name, int power, int life, String sprite) {
         this.name = name;
         this.power = power;
         this.life = life;
-        this.texture = texture;
+        this.sprite = sprite;
         this.potions = 2;
+        this.visible = true;
     }
 
-    public void move(char direction) {
+    public void drinkAPotion() {
+        this.life += 10;
+    }
+
+    public boolean attack(Enemy enemy){
+        if(this.power > enemy.power){
+            enemy.life -= this.power;
+            this.score++;
+            return true;
+        }
+        if(this.power <= enemy.power){
+            this.life -= enemy.power;
+            return false;
+        }
+        return false;
+    } 
+
+    public void moveTo(char direction) {
         switch (direction) {
             case 'w':
                 this.position.y--;
@@ -29,7 +49,12 @@ public class Player extends Character {
         }
     }
 
-    public String getLife() {
-        return "Te queda: " + this.life + " de vida.";
+    public Enemy touchEnemies(List<Enemy> allEnemies) {
+        for (Enemy enemy : allEnemies) {
+            if (this.isCollidingWith(enemy)) {
+                return enemy;
+            }
+        }
+        return null;
     }
 }

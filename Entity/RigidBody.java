@@ -1,7 +1,12 @@
 package Entity;
 
+import Screen.Coords;
+import java.util.List;
+
 public class RigidBody {
    public int id;
+   public String sprite;
+   public boolean visible;
    public Coords position;
 
    public boolean isCollidingWith(RigidBody body) {
@@ -11,7 +16,15 @@ public class RigidBody {
         return false;
    }
 
-   public void setPosition(int x, int y) {
-      this.position = new Coords(x, y);
+   public RigidBody isCollidingWith(List<RigidBody> bodies) {
+        for (RigidBody body : bodies) {
+            if (this.isCollidingWith(body))
+                  return body;
+        }
+        return null;
+   }
+
+   public void setPosition(Coords position) {
+      this.position = position;
    }
 }
