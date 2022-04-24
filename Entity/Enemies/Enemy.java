@@ -1,16 +1,12 @@
-package Entity;
+package Entity.Enemies;
+
+import Entity.Character;
 
 public class Enemy extends Character {
     public Enemy(String name, int power, String sprite) {
-        this.name = name;
+        this.name = name + "_" + (int)(Math.random() * 100);
         this.power = power;
         this.sprite = sprite;
-    }
-
-    public Enemy() {
-        this.name = "Enemy_" + (int)(Math.random()*100);
-        this.power = (int)Math.random() * 20;
-        this.sprite = "#";
         this.visible = true;
     }
 

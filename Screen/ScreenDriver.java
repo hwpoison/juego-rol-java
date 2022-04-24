@@ -44,13 +44,15 @@ public class ScreenDriver
     }
 
     public void addMessage(String message){
-      System.out.println("Added message: " + message);
+      //System.out.println("Info: " + message);
       this.messages.add(message);
     }
 
     public void printSomeLastMessages(){
       if(this.messages.size() > 0){
-        System.out.println(this.messages.get(this.messages.size()- 1));
+          // todo: print last 2 messages
+          System.out.printf("Info: %s\n", this.messages.get(this.messages.size() - 1));
+ 
       }
     }
 

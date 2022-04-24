@@ -1,7 +1,9 @@
 import Entity.Player;
+import Entity.RigidBody;
+import Entity.Enemies.Enemy;
+import Entity.Enemies.EnemyGenerator;
 import Screen.Coords;
 import Screen.ScreenDriver;
-import Entity.Enemy;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -12,38 +14,45 @@ public class Game {
         // preparar pantalla y entrada
         ScreenDriver screen = new ScreenDriver();
         screen.initScreen();
+
+        // initializar el teclado
         Keyboard keyboard = new Keyboard();
         boolean enJuego = true;
 
-        // crear jugador
+        // crear al jugador
         Player player = new Player("Player", 3, 100, "@");    
         player.setPosition(new Coords(0, 0));
         
-        // crear enemigos
-        List<Enemy> allEnemies = new ArrayList<Enemy>();
-        for(int i = 0; i < 3; i++){
-            allEnemies.add(new Enemy());
+        // crear los enemigos y asignarles un lugar en la pantalla
+        List<RigidBody> allEnemies = new ArrayList<RigidBody>();
+        for(int i = 0; i < 4; i++){
+            allEnemies.add(EnemyGenerator.random());
             allEnemies.get(i).setPosition(Coords.random());
         }
-
+        // mensaje bienvenida
+        screen.addMessage("Hola " + player.name + "!, estás en una aldea llena de zombies y dragones");
+        screen.addMessage("Para moverte, usa las flechas del teclado, a sobrevivir!");
+        // iniciar el bucle principal
         while(enJuego){
-            screen.erase(); // Borrar pantalla
+            // borrar la pantalla
+            screen.erase();
 
-            // jugador y enemigos
+            // refrescar la posición actual
+            // del jugardor y los enemigos
             screen.drawBody(player);
-            for(Enemy enemy : allEnemies){
-                screen.drawBody( enemy);
+            for(RigidBody enemy : allEnemies){
+                screen.drawBody(enemy);
             }
 
-            // dibujar pantalla y mensajes
+            // dibujar el contenido
             screen.printText("==========================");
-            screen.draw(); 
+            screen.draw();  // contenido
             screen.printText("==========================");
-            screen.printSomeLastMessages();
-            // eventos del juego
             
-            // Cuando el jugador toca a un enemigo
-            Enemy targetEnemy = player.touchEnemies(allEnemies);
+
+            // Evento: Cuando el jugador toca a un enemigo
+            // (todo lo que suceda ahora se representará en la próxima iteración)
+            Enemy targetEnemy = (Enemy) player.isCollidingWith(allEnemies);
             if(targetEnemy!=null){
                 screen.printText("El enemigo tiene " + targetEnemy.power + " de poder.");
                 screen.printText("Te has topado con " + targetEnemy.name  +" ¿Deseas atacar? (y/n)");
@@ -63,9 +72,12 @@ public class Game {
                 }
             }
 
+            // Detecta si el jugador se quedó sin vida.    
+            screen.printSomeLastMessages(); // mensajes
             if(player.life <= 0){
                 screen.printText("¡Has perdido!");
                 enJuego = false;
+                gameOver(screen);
             }else{
                 screen.printText("Te queda: " + player.life + " de vida.");
             }
@@ -99,13 +111,12 @@ public class Game {
                     screen.addMessage("No puedes hacer eso.");
                     break;
             }
-        
-            
         }
-        // game over
+    }
+
+    public static void gameOver(ScreenDriver screen) {
         screen.ClearConsoleScreen();
         screen.printText("¡Hasta la próxima!");
-
     }
 }
 

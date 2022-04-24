@@ -15,8 +15,8 @@ public class RigidBody {
                 return true;
         return false;
    }
-
-   public RigidBody isCollidingWith(List<RigidBody> bodies) {
+   // apply upcasting
+   public RigidBody isCollidingWith(List<RigidBody> bodies) { 
         for (RigidBody body : bodies) {
             if (this.isCollidingWith(body))
                   return body;

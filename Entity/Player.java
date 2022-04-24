@@ -2,6 +2,8 @@ package Entity;
 
 import java.util.List;
 
+import Entity.Enemies.Enemy;
+
 public class Player extends Character {
     public int score;
     public int potions;
@@ -47,14 +49,5 @@ public class Player extends Character {
                 this.position.x++;
                 break;
         }
-    }
-
-    public Enemy touchEnemies(List<Enemy> allEnemies) {
-        for (Enemy enemy : allEnemies) {
-            if (this.isCollidingWith(enemy)) {
-                return enemy;
-            }
-        }
-        return null;
     }
 }
